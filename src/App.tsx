@@ -15,7 +15,6 @@ interface FeedbacksState {
 
 function App() {
   const storageKey = 'feedbacks';
-  const [totalFeedback, setTotalFeedback] = useState(0);
   const [feedbacks, setFeedbacks] = useState<FeedbacksState>(() => {
     const storedValue = window.localStorage.getItem(storageKey);
     if (storedValue) {
@@ -30,7 +29,6 @@ function App() {
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(feedbacks));
-    setTotalFeedback(feedbacks.good + feedbacks.neutral + feedbacks.bad);
   }, [feedbacks]);
 
   const updateFeedback = (feedbackType: string) => {
@@ -50,6 +48,8 @@ function App() {
     });
   };
 
+  const totalFeedback = feedbacks.good + feedbacks.neutral + feedbacks.bad;
+
   return (
     <>
       <div className={css.container}>
@@ -61,6 +61,9 @@ function App() {
             bad={feedbacks.bad}
             neutral={feedbacks.neutral}
             total={totalFeedback}
+            positivePercentage={Math.round(
+              (feedbacks.good / totalFeedback) * 100
+            )}
           />
         )}
         {totalFeedback === 0 && <Notification>No feedback yet.</Notification>}

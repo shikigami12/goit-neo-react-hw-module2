@@ -6,9 +6,16 @@ interface FeedbackProps {
   neutral: number;
   bad: number;
   total: number;
+  positivePercentage: number;
 }
 
-export const Feedback = ({ good, bad, neutral, total }: FeedbackProps) => {
+export const Feedback = ({
+  good,
+  bad,
+  neutral,
+  total,
+  positivePercentage,
+}: FeedbackProps) => {
   return (
     <>
       <div className="container">
@@ -23,9 +30,7 @@ export const Feedback = ({ good, bad, neutral, total }: FeedbackProps) => {
             {OptionsEnum.BAD}: {bad}
           </li>
           <li className={css.item}>Total: {total}</li>
-          <li className={css.item}>
-            Positive: {Math.round((good / total) * 100)}%
-          </li>
+          <li className={css.item}>Positive: {positivePercentage}%</li>
         </ul>
       </div>
     </>
